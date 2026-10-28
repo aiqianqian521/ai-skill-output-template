@@ -1,0 +1,56 @@
+{
+  "id": "ooda.loop",
+  "family": "ooda",
+  "scene": "loop-process",
+  "title": "OODA 循环过程产物",
+  "desc": "OODA 循环 4 段（Observe/Orient/Act/Verify），跨轮持续，state.md 复写。",
+  "fallback_family": "ooda",
+  "frontmatter_required": [
+    "skill_family",
+    "skill_name",
+    "project",
+    "evaluatedAt",
+    "input_ref",
+    "renderer",
+    "status"
+  ],
+  "narratives_required": [
+    "summary",
+    "observe",
+    "orient",
+    "act",
+    "verify"
+  ],
+  "narratives_min_len": 8,
+  "sections": [
+    {
+      "key": "observe",
+      "title": "Observe",
+      "kind": "narrative",
+      "field": "observe"
+    },
+    {
+      "key": "orient",
+      "title": "Orient / 问题分级",
+      "kind": "narrative",
+      "field": "orient"
+    },
+    {
+      "key": "act",
+      "title": "Act",
+      "kind": "narrative",
+      "field": "act"
+    },
+    {
+      "key": "verify",
+      "title": "Verify",
+      "kind": "narrative",
+      "field": "verify"
+    }
+  ],
+  "validation": {
+    "forbidden_words": true
+  },
+  "golden": "spec/L2-golden/ooda.md",
+  "default": true
+}

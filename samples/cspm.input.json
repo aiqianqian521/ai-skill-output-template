@@ -1,0 +1,24 @@
+﻿{
+  "family": "cspm",
+  "project": "cspm-prod-sub",
+  "evaluatedAt": "2026-08-26",
+  "title": "CSPM 合规报告（demo）",
+  "status": "covered",
+  "skillName": "skill-sas-cspm-report",
+  "archMap": [
+    { "dir": "cspm/cis", "role": "CIS 扫描", "evidence": "cspm/cis_base.py" },
+    { "dir": "cspm/pci", "role": "PCI 映射", "evidence": "cspm/pci_map.py" }
+  ],
+  "dimensions": [
+    { "dim": "cis", "status": "covered", "evidence": "cis 通过项 42/54", "risk": "low", "trigger": "" },
+    { "dim": "pci", "status": "partial", "evidence": "pci 未覆盖网络层", "risk": "medium", "trigger": "scheme 三.1" },
+    { "dim": "secret", "status": "missing", "evidence": "扫描发现明文 AK/SK", "risk": "critical", "trigger": "scheme 一.1" }
+  ],
+  "narratives": {
+    "summary": "CIS 已覆盖，secret 维存在明文密钥需立即处理。",
+    "p1_narrative": "本周期扫描 3 套标准，发现 1 项 critical。",
+    "summary_narrative": "secret 明文 AK/SK 属最高危，先轮换。",
+    "key_findings": "cis covered；pci partial；secret missing。",
+    "hardening_suggestion": "轮换密钥 + 配置脱敏 + 全量复扫。"
+  }
+}

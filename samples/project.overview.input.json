@@ -1,0 +1,273 @@
+{
+  "family": "project",
+  "project": "loop-dev",
+  "evaluatedAt": "2026-09-01",
+  "title": "loop-dev · 自进化回测编排框架（完整项目介绍）",
+  "status": "covered",
+  "skillName": "project-overview",
+  "archMap": [
+    {
+      "dir": "loop-engine/orchestrator.py",
+      "role": "CLI 组合根：加载配置 + 编排 OODA",
+      "evidence": "~680 行（godfile 拆分后）"
+    },
+    {
+      "dir": "loop-engine/run_once_pipeline.py",
+      "role": "单轮 execute→Verify→Learn 管线",
+      "evidence": "L304 读 success_criteria"
+    },
+    {
+      "dir": "loop-engine/verifier.py",
+      "role": "对照 success_criteria 判定 PASS/FAIL",
+      "evidence": "verifier.py verify()"
+    },
+    {
+      "dir": "loop-engine/memory_store.py",
+      "role": "SQLite 模式库（失败/成功经验）v001-v005",
+      "evidence": "541 行"
+    },
+    {
+      "dir": "loop-engine/event_log.py",
+      "role": "JSONL 事件日志（只追加，事实源）",
+      "evidence": "294 行"
+    },
+    {
+      "dir": "loop-engine/adapters/backtest_adapter.py",
+      "role": "Loop 与回测代码唯一耦合点",
+      "evidence": "L191 configure"
+    },
+    {
+      "dir": "loop-engine/adapters/task_runner.py",
+      "role": "TaskRunner ABC + BacktestRunner",
+      "evidence": "L305 metrics"
+    },
+    {
+      "dir": "loop-engine/runtime_paths.py",
+      "role": "fail-closed 路径隔离",
+      "evidence": "assert_under_root"
+    },
+    {
+      "dir": "loop-engine/runtime_exec.py",
+      "role": "ExecGate：去 shell + 解释器白名单",
+      "evidence": "114 行"
+    },
+    {
+      "dir": "loop-engine/circuit_breaker.py",
+      "role": "熔断半开多探针恢复",
+      "evidence": "107 行"
+    },
+    {
+      "dir": "loop-engine/resume_guard.py",
+      "role": "断电/崩溃恢复幂等",
+      "evidence": "82 行"
+    },
+    {
+      "dir": "backtest/",
+      "role": "回测脚本契约（mock/lh_backtest/lh_runtime）",
+      "evidence": "backtest/mock_backtest.py 契约 docstring"
+    },
+    {
+      "dir": "scripts/",
+      "role": "门禁 + 脚手架（run_gate/make_pilot/make_pm_task_config）",
+      "evidence": "scripts/run_gate.py"
+    },
+    {
+      "dir": "projects/pm/_template/",
+      "role": "PM 任务可复制起点（config+signals+wrapper）",
+      "evidence": "projects/pm/_template/wrapper.py"
+    },
+    {
+      "dir": "docs/",
+      "role": "使用手册 / 版本 / 路线 / PM 接入规范",
+      "evidence": "docs/PM框架-接入loop-dev-流程规范.md"
+    },
+    {
+      "dir": "loop-engine/round_context.py",
+      "role": "跨轮上下文传续（Act→Orient 错误传接断链）",
+      "evidence": "v2.2"
+    },
+    {
+      "dir": "loop-engine/tool_registry.py",
+      "role": "工具注册表（DSH Plugin Registry 迁移）",
+      "evidence": "register/discover/dispatch"
+    },
+    {
+      "dir": "loop-engine/hooks_check.py",
+      "role": "Claude Code 前置钩子（回测前后提醒/模式库编辑拦截）",
+      "evidence": "PreToolUse"
+    },
+    {
+      "dir": "loop-engine/hook_protocol.py",
+      "role": "HookOutput 标准化输出协议",
+      "evidence": "protocol"
+    },
+    {
+      "dir": "loop-engine/corrections/pre_check.py",
+      "role": "R1-R6 校正规则校验（OODA 完整性/参数扫描/五窗口）",
+      "evidence": "playbook"
+    },
+    {
+      "dir": "_data/",
+      "role": "子进程 I/O 契约落点（loop_backtest_input/output.json）",
+      "evidence": "backtest_adapter 契约"
+    }
+  ],
+  "dimensions": [
+    {
+      "dim": "architecture",
+      "status": "covered",
+      "evidence": "orchestrator 拆 ~3300→680 行（ADR-006/007）+ verifier 判定链",
+      "risk": "low",
+      "trigger": ""
+    },
+    {
+      "dim": "success-eval",
+      "status": "covered",
+      "evidence": "verifier.py + run_once L304 success_criteria 判定",
+      "risk": "low",
+      "trigger": ""
+    },
+    {
+      "dim": "test",
+      "status": "covered",
+      "evidence": "tests/ + loop-engine/tests/ 666 passed",
+      "risk": "low",
+      "trigger": ""
+    },
+    {
+      "dim": "data",
+      "status": "covered",
+      "evidence": "provenance SHA + checkpoint 硬校验",
+      "risk": "low",
+      "trigger": ""
+    },
+    {
+      "dim": "docs",
+      "status": "covered",
+      "evidence": "docs/ 全套 + PM 规范 + 本报告",
+      "risk": "low",
+      "trigger": ""
+    },
+    {
+      "dim": "ci",
+      "status": "partial",
+      "evidence": "本地 run_gate 可绕过，未接远程 CI",
+      "risk": "high",
+      "trigger": "scheme 二.5"
+    },
+    {
+      "dim": "ops",
+      "status": "partial",
+      "evidence": "dev containment 有；系统级 sandbox 未做",
+      "risk": "medium",
+      "trigger": "scheme 三.2"
+    },
+    {
+      "dim": "platform",
+      "status": "partial",
+      "evidence": "REST/Webhook/WebUI/多项目未做",
+      "risk": "medium",
+      "trigger": "scheme 三.1"
+    },
+    {
+      "dim": "contract",
+      "status": "covered",
+      "evidence": "四层约束 Budget/Stop/Scope/Zone（orchestrator _check_contract/_check_scope/_decide）",
+      "risk": "medium",
+      "trigger": "scheme 中2"
+    }
+  ],
+  "skillAnalyses": [
+    {
+      "skill": "success-verifier",
+      "principle": "用户定义成功，Loop 判定逼近",
+      "evidence": "verifier.py + run_once L304",
+      "risk": "low",
+      "nextStep": "推广到更多任务 config"
+    },
+    {
+      "skill": "self-evolving-loop",
+      "principle": "OODA 7 步 + 失败沉淀/成功复用",
+      "evidence": "ooda_pipeline.py + memory_store.py",
+      "risk": "low",
+      "nextStep": "保持自动学习边界"
+    },
+    {
+      "skill": "containment-exec",
+      "principle": "fail-closed 路径/解释器白名单",
+      "evidence": "runtime_paths + runtime_exec",
+      "risk": "medium",
+      "nextStep": "系统级 sandbox"
+    },
+    {
+      "skill": "circuit-breaker",
+      "principle": "半开多探针恢复",
+      "evidence": "circuit_breaker.py HALF_OPEN",
+      "risk": "low",
+      "nextStep": "接入 CI 联测"
+    },
+    {
+      "skill": "pm-onboarding",
+      "principle": "PM 框架接入（T1-T5 可判定）",
+      "evidence": "PM 规范 + _template + make_pm_task_config",
+      "risk": "low",
+      "nextStep": "T1 f2-purity 首验证"
+    },
+    {
+      "skill": "data-provenance-contract",
+      "principle": "运行产物只写 runtime.root（仓库外）；I/O 走 _data 契约；provenance SHA+checkpoint 硬校验",
+      "evidence": "runtime_paths + _data/loop_backtest_output.json",
+      "risk": "low",
+      "nextStep": "补发包后 provenance 一致性审计"
+    },
+    {
+      "skill": "contract-programming",
+      "principle": "四层约束：Budget(hard/soft)+Stop(completion/safety)+Scope(allow/deny)+Zone(green/yellow/red)",
+      "evidence": "orchestrator _check_contract/_check_scope/_decide",
+      "risk": "medium",
+      "nextStep": "把 Zone 分级落到 config 示例并文档化"
+    }
+  ],
+  "blockers": [
+    {
+      "id": "B1",
+      "level": "high",
+      "scheme": "scheme 二.5",
+      "title": "fail-closed CI 接入",
+      "phenomenon": "本地 run_gate 可绕过；无远程不可绕过门禁",
+      "rootCause": "无 hosted/pre-receive CI；未做 secret/path 扫描",
+      "impact": "生产发布无法宣称绿色；多机协作污染风险",
+      "verify": "绕过本地 hook 仍无法 push 非绿色；敏感/路径污染被拒"
+    },
+    {
+      "id": "B2",
+      "level": "medium",
+      "scheme": "scheme 三.1",
+      "title": "migration sentinel RPO",
+      "phenomenon": "rpo 用 row_count_proxy",
+      "rootCause": "未在业务行加 sentinel(committed_at)",
+      "impact": "无法宣称恢复到业务时间点",
+      "verify": "演练给 committed_at<=cutoff 时间点；RTO 实测"
+    },
+    {
+      "id": "B3",
+      "level": "medium",
+      "scheme": "scheme 三.2",
+      "title": "OS/network sandbox",
+      "phenomenon": "仅 dev containment（路径断言）",
+      "rootCause": "ExecGate 之上无系统级沙箱/默认禁出网",
+      "impact": "暴露不可信输入/生产无隔离",
+      "verify": "逃逸/网络越权被系统级拦截"
+    }
+  ],
+  "narratives": {
+    "summary": "loop-dev 是一个 CLI 驱动的自进化回测编排框架，核心是「用户定义成功、Loop 自主逼近」：你在输入里写明什么算成功（success_criteria），Loop 用 OODA 7 步自主循环去探索执行、逐轮对照成功判定，失败自动沉淀为排除经验、成功复用为优先信号，把确定性简单结果（如 1+1=2）一次命中，把复杂目标通过多轮可行性 loop 逼近达标；运行产物隔离在仓库外 runtime.root。当前 v4.0-dev：666 passed、coverage 69.4%，真实 lh 量化 pilot 已接通。",
+    "architecture": "这是 loop-dev 的**全景架构**：CLI 驱动的**自进化回测编排框架**。核心是一条「由用户定义成功标准、由 Loop 自主循环逼近达标」的闭环：编排器领到一批信号后，跑 OODA 7 步，调子进程回测脚本产出 trades，由 Verifier **对照用户定义的 success_criteria 判定成败**，失败自动沉淀为下次的排除经验、成功被复用为优先信号。全部运行产物隔离在仓库外的 runtime.root。\n\n```mermaid\nflowchart TB\n    subgraph IN[\"入口层\"]\n        CLI[\"python orchestrator.py<br/>CLI 组合根 · --config / --once / --resume\"]\n    end\n    subgraph DEF[\"用户输入 · 成功定义\"]\n        SC[\"task.success_criteria<br/>metric + operator + threshold<br/>例: trades_count>0 / win_rate>=0.35\"]\n    end\n    subgraph ORCH[\"编排层 (OODA 7 步)\"]\n        U(Understand) --> OBS(Observe<br/>读模式库 · 排除已知失败)\n        OBS --> ORI(Orient<br/>根因诊断 · 拐点检测)\n        ORI --> D(Decide<br/>execute 或 skip · 绿黄红分级)\n        D --> A(Act<br/>调 backtest_adapter)\n        A --> V(Verify<br/>对照 success_criteria 判定)\n        V --> L(Learn<br/>写失败/成功模式)\n        L --> U\n    end\n    subgraph EXEC[\"子进程执行层\"]\n        AD[\"backtest_adapter.py<br/>Loop 与回测代码唯一耦合点\"]\n        W[\"wrapper.py / lh_backtest.py<br/>--input 信号 --output trades\"]\n    end\n    subgraph PERSIST[\"持久层 (runtime.root 仓库外)\"]\n        PT[(PatternStore<br/>SQLite v001-v005 经验)] ; EV[(EventLog<br/>JSONL 事实)] ; CK[(Checkpoint<br/>幂等恢复)]\n    end\n    CLI --> ORCH\n    SC --\"提供成功判定\"--> V\n    A --> AD --> W\n    ORCH -.读写.-> PERSIST\n    V --\"PASS/FAIL\"--> L\n```\n\n核心约定：EventLog=事实、Checkpoint=控制、PatternStore=经验视图，三者严格分离；越界路径由 containment 拒绝（fail-closed，这是设计预期不是 bug）。",
+    "taskFlow": "从**设计者视角**看，一次任务与它「依据成功定义自主 loop」的完整流程。\n\n**① 用户怎么运行一次任务** —— 在 config 里定义成功标准，先环境自检，再跑单轮，或进入连续循环：\n\n```mermaid\nflowchart LR\n    A[编写 config.yaml 的 success_criteria] --> B[--doctor 环境自检 + 探针]\n    B -- 探针通过 --> C[--once 跑一轮<br/>完整 OODA 7 步]\n    B -- 失败 --> G[按 FAIL 修环境再跑]\n    C --> D[Verify 对照成功标准判定]\n    D --> E{记录模式库}<br/>写事件日志\n    E --> F[python orchestrator.py<br/>连续循环 · 依据成功定义继续探索]\n```\n\n**② 任务怎么自主做可行性 loop，逐步近跟成功判定式的结果** —— 每一轮都是「取信号 → 排除已知失败 → 回测 → 对照成功标准判定 → 学习」；未达标被记录、下次调整参数/做法再试，逐步逼近用户定义的成功：\n\n```mermaid\nsequenceDiagram\n    participant U as 用户输入\n    participant L as Loop(Orchestrator)\n    participant S as SignalPool\n    participant ST as PatternStore\n    participant W as wrapper\n    participant V as Verifier\n    U->>L: config：signals + success_criteria\n    L->>S: 领取一批候选信号\n    S-->>L: signals\n    L->>ST: check_exclusion（排除已知失败）\n    ST-->>L: passed / excluded\n    L->>W: 回测（子进程，--input/--output）\n    W-->>L: trades / pnl / win_rate / extra_metrics\n    L->>V: Verifier.verify(对照 success_criteria)\n    V-->>L: PASS / FAIL 及各指标 actual\n    alt FAIL\n        L->>ST: Learn 写失败模式（本次做法下次排除）\n        L->>L: 换一种正确做法 / 重跑\n    else PASS\n        L->>ST: Learn 写成功模式（结果可复用）\n        L->>L: 依据停止条件收尾 / 达标\n    end\n```\n\n**③ 用户怎么查询历史任务** —— 过程与结果都能回看：\n\n```mermaid\nflowchart LR\n    A[--history 运行历史] --> B[--status 模式库/队列]\n    B --> C[--inspect timeline 事件时间线]\n    C --> D[--inspect round --round N 某轮详情]\n    D --> E[--trace 本地 HTML 报告]\n```",
+    "successCriteria": "**Loop 的成败由用户在输入里定义，Loop 只负责按这个定义去可行性 loop 探寻执行**——这是它区别于普通脚本/Agent 引擎的本质。\n\n#### 用户在输入里写「什么是成功」（两级定义）\n1. **成功值 = 判定式，不是必然值**。\n   - 确定性结果（如 `1+1=2`）是事件的必然结果，一次命中即成，无需探索；\n   - 但客户要的往往是**复杂结果**——`1+1` 该等于几本身不重要，重要的是「哪种结果才算成功」的判定式。Loop 就把这个判定式当作可行性的标尺。\n2. **写成 `task.success_criteria`（至少 1 条，PM 模板要求 ≥3 条）**，每条是 `metric + operator + threshold`：\n   - `trades_count > 0`：只要产生交易就算过（简单门槛，未配置时 Loop 内置此默认，见 `run_once_pipeline.py` L304）；\n   - `win_rate >= 0.35`、`sharpe >= 1.0`、`filter_effectiveness > 0`：业务级成功。\n   - operator 仅限 `gt/gte/lt/lte/eq/ne`，threshold 必须数值，不允许「尽量/大约」；指标名必须对应 wrapper 输出（见 `projects/pm/_template/config.yaml`）。\n3. 更严格的正确性判定走 **`verification.assertions`**（可选，`equals/range/regex/exists/min_size/callback`），判「结果是否正确」而不只是「执行是否完成」。\n\n#### Loop 按成功定义做可行性 loop 探寻执行\n- 每轮取信号 → 排除已知失败（Observe）→ 回测（Act）→ **由 `verifier.py` 逐条把实际指标和成功定义比较（gt/lt/gte/lte/eq）**，对不上标 FAIL、全对上标 PASS。\n- **未达标 → FAIL 自动沉淀为失败模式入库**，下一轮观察时自动排除，换更接近成功定义的作法再试——这就是「可行性 loop」：不是撞运气，而是带着上次失败的原因持续逼近用户定义的成功。\n- **达标 → PASS 复用为成功模式**，减少重复探索。\n- 判定结论（PASS/FAIL + 各指标 actual）写回事件日志/模式库，可被 `--status`、`--inspect round` 查询。\n\n```mermaid\nflowchart TB\n    U[用户输入里的成功定义<br/>success_criteria 判定式<br/>metric+operator+threshold] \n    W[wrapper 产出实际指标 actual] \n    V[verifier.py 逐条比较<br/>gt/gte/lt/lte/eq/ne]\n    U --> V ; W --> V\n    V -- 全命中 --> P[PASS -> 成功模式入库存入 OODA Learn]\n    V -- 任一未中 --> F[FAIL -> 失败模式入库<br/>下轮 Observe 自动排除<br/>换作法再次可行性 loop]\n    F -.->|近跟成功定义| L[下一轮 OODA]\n```",
+    "usage": "**使用者视角 · 上手与日常操作**（完整命令速查）：\n\n#### 零. 环境准备（一台新主机）\n`py -3.11 -m venv .venv` → 装 `PyYAML` / `pytest==9.1.1` / `pytest-cov==7.1.0` / `coverage==7.16.0` →\n`python scripts/make_pilot_config.py --runtime-root E:/loop-runtime/pilot-lh` 生成本机隔离配置。\n（`${RUNTIME_ROOT}` 是唯一按主机填的占位符，必须字面量绝对路径、不解析环境变量。）\n\n#### 一. 定义成功（这是 loop 的核心入口）\n在 config.yaml 的 `task.success_criteria` 里写 `[{metric, operator, threshold}, ...]`：\n- 至少 1 条（PM 模板要求 ≥3 条）；operator 仅 `gt/gte/lt/lte/eq/ne`；threshold 必须数值。\n- 简单结果写 `trades_count > 0`；业务级写 `win_rate >= 0.35`、`sharpe >= 1.0`。\n- 更严格判定用 `verification.assertions`（equals/range/regex/exists/min_size/callback）。\n\n#### 二. 运行一次任务\n`python orchestrator.py --config config.pilot-lh.yaml --doctor`（预期 `[OK] Contract probe: 3 trades`）→\n`--once`（完整 OODA 一轮：Act→Verify 对照成功标准判 1/1 passed→Learn 记录模式）。\n\n#### 三. 查询历史任务\n`--history` 运行历史；`--status` 模式库/问题队列；`--inspect runs|timeline|last-error|round --round N` 事件日志；\n`--trace` 生成本地静态 HTML 报告。\n\n#### 四. 连续 loop / 恢复 / 审核\n- 连续：直接 `python orchestrator.py`（受 `max_rounds/max_seconds/no_progress_stop` 约束）。\n- 恢复：`--resume` 断电后从 checkpoint 续跑（幂等）。\n- 审核：`--review --yes --scope combo` 人工把失败升级为排除规则（**不会自动改 status**）。\n\n#### 五. 验证门禁（提交前）\n- 单元测试：`pytest tests/ loop-engine/tests/ --ignore=tests/test_p0_2_rerun.py`（666 passed）。\n- 门禁：`python scripts/run_gate.py`（coverage≥64%，只升不降）。\n- 新任务自检：改 wrapper/config/signals 后跑 `--doctor` 通过绿勾再继续。\n\n#### 六. 术语速查\n- `success_criteria`：用户在 config 里定义的成功判定式（metric+operator+threshold）。\n- `verification.assertions`：可选的结果正确性断言（比执行完成更严格）。\n- OODA 7 步：Understand→Observe→Orient→Decide→Act→Verify→Learn。\n- `runtime.root`：仓库外运行产物根，隔离与可移植的边界。\n- PM 接入：`python scripts/make_pm_task_config.py --task <task> --runtime-root <root>` 一键生成任务。\n",
+    "keyFindings": "**核心机制**：任务 = 用户在 config 里定义成功标准（`success_criteria`）+ 信号 + 回测脚本；\nLoop 通过 OODA 7 步自主 loop **逼近该成功判定**——未达标 FAIL 自动沉淀为 failure pattern（下轮 Observe 自动排除）、\n达标 PASS 复用为 success pattern；判定由 `verifier.py` 逐条比较 actual（gt/gte/lt/lte/eq/ne），\nL2 只给规则建议、不自动改 status（需人工 `--review`）。\n**关键隔离**：回测脚本用仓库内相对路径、运行产物落 `runtime.root`（仓库外），越界触发 ContainmentError 即 fail-closed（设计预期非 bug）。\n**工程基线**：orchestrator.py 从约 3300 行拆到约 680 行（ADR-006/007）；fail-closed containment + ExecGate（W2-BOUNDARY-01/H2）；\n熔断半开多探针（W1-CB-01/ADR-008）；CI green-umbrella（P3.2/ADR-005）；迁移隔离演练。\n**测试**：666 passed / coverage 69.4%；真实 lh 量化 pilot 已接通。\n**与知识库互通**：`successCriteria` 两门验证模型（success_criteria + verification.assertions）源自 loop-verification-design.md，\n「编排器不是计算器」的分工源自 PM框架-接入loop-dev-流程规范.md §0。\n",
+    "hardening": "分阶段补齐：P0（生产前置）—— 接入远程不可绕过的 fail-closed CI（复用 pyproject fail_under=64，只升不降；补 staged secrets/绝对路径扫描）；让成功判定可举证——migration sentinel 把 RPO 从行数代理升级为业务时间点（committed_at）。P1/P2 —— OS/network sandbox（默认禁出网）、REST API 平台化（外部驱动 Loop、查模式库）、WebUI dashboard。约束：只动 loop-dev、不碰旧基线 loop；Pattern 默认证据、Rule 默认审批后控制。",
+    "nextSteps": "按用户既定优先级，下述项全部延后、触发条件达到才唤醒：fail-closed CI、migration sentinel RPO、REST/Webhook、sandbox、WebUI（见 docs/loop-dev-ROADMAP.md §2）。近期唯一在途：PM 框架接入 —— 用 make_pm_task_config.py 生成 T1 f2-purity，按 PM 规范 §3.5 跑 doctor/once 做首验证；其中 PM 任务的 success_criteria（trades_count/win_rate/filter_effectiveness 等）正是「由用户定义成功、Loop 逼近」的落地示例。接手顺序见 ROADMAP §5。"
+  }
+}

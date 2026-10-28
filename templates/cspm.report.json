@@ -1,0 +1,128 @@
+{
+  "id": "cspm.report",
+  "family": "cspm",
+  "scene": "compliance-report",
+  "title": "CSPM 安全合规报告",
+  "desc": "cspm 安全合规报告：五段结构与 architect 同构，但 narrative 使用 cspm 自有字段名。",
+  "fallback_family": "cspm",
+  "frontmatter_required": [
+    "skill_family",
+    "skill_name",
+    "project",
+    "evaluatedAt",
+    "input_ref",
+    "renderer",
+    "status"
+  ],
+  "narratives_required": [
+    "summary"
+  ],
+  "narratives_min_len": 8,
+  "sections": [
+    {
+      "key": "archMap",
+      "title": "① 项目架构地图",
+      "kind": "table",
+      "rows": "archMap",
+      "cols": [
+        {
+          "h": "目录/入口",
+          "f": "dir"
+        },
+        {
+          "h": "职责",
+          "f": "role"
+        },
+        {
+          "h": "证据",
+          "f": "evidence"
+        }
+      ]
+    },
+    {
+      "key": "dims",
+      "title": "② 维度覆盖矩阵",
+      "kind": "table",
+      "rows": "dimensions",
+      "cols": [
+        {
+          "h": "dim",
+          "f": "dim"
+        },
+        {
+          "h": "状态",
+          "f": "status"
+        },
+        {
+          "h": "证据",
+          "f": "evidence"
+        },
+        {
+          "h": "风险",
+          "f": "risk"
+        }
+      ]
+    },
+    {
+      "key": "skills",
+      "title": "③ 各 skill 详细分析",
+      "kind": "subs",
+      "rows": "skillAnalyses",
+      "fields": [
+        {
+          "f": "principle",
+          "label": "原则"
+        },
+        {
+          "f": "evidence",
+          "label": "证据"
+        },
+        {
+          "f": "risk",
+          "label": "风险分级"
+        },
+        {
+          "f": "nextStep",
+          "label": "下一步"
+        }
+      ]
+    },
+    {
+      "key": "stats",
+      "title": "④ 问题点汇总统计",
+      "kind": "stats",
+      "rows": "dimensions"
+    },
+    {
+      "key": "blockers",
+      "title": "⑤ 改进方案 — Critical/High 阻塞项详述",
+      "kind": "subs",
+      "rows": "blockers",
+      "fields": [
+        {
+          "f": "phenomenon",
+          "label": "现象"
+        },
+        {
+          "f": "rootCause",
+          "label": "根因"
+        },
+        {
+          "f": "impact",
+          "label": "影响"
+        },
+        {
+          "f": "verify",
+          "label": "验证命令"
+        }
+      ]
+    }
+  ],
+  "validation": {
+    "require_evidence_on_finding": true,
+    "require_trigger_ref": true,
+    "forbidden_words": true
+  },
+  "golden": "spec/L2-golden/cspm.md",
+  "default": true
+}

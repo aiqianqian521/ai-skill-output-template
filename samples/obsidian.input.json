@@ -1,0 +1,17 @@
+﻿{
+  "family": "obsidian",
+  "project": "p3-vault-audit",
+  "evaluatedAt": "2026-08-26",
+  "title": "模板落地笔记",
+  "status": "covered",
+  "skillName": "obsidian-capture",
+  "tags": ["output-template", "skills", "vault"],
+  "aliases": ["通用模板"],
+  "created": "2026-08-26",
+  "links": ["index", "architect-report"],
+  "narratives": {
+    "summary": "通用输出模板 v1 落地，四族可复用。",
+    "evidence": "tests/test-universal-template.cjs 全绿。",
+    "nextStep": "接入第一个真实 skill。"
+  }
+}

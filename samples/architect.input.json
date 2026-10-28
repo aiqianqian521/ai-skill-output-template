@@ -1,0 +1,34 @@
+﻿{
+  "family": "architect",
+  "project": "cspm-agent",
+  "evaluatedAt": "2026-08-26",
+  "title": "cspm-agent 架构评估（完整样例）",
+  "status": "covered",
+  "skillName": "architect-security",
+  "archMap": [
+    { "dir": "src/agent", "role": "agent 编排核心", "evidence": "src/agent/generic_agent.py 47KB" },
+    { "dir": "config", "role": "配置加载", "evidence": "config.yaml L5-16" },
+    { "dir": "aggregator", "role": "聚合评估", "evidence": "aggregator/reference/input-format.md" }
+  ],
+  "dimensions": [
+    { "dim": "security", "status": "missing", "evidence": "config.yaml L5-16 三组明文", "risk": "critical", "trigger": "scheme 一.1" },
+    { "dim": "design", "status": "partial", "evidence": "src/agent 单文件 47KB", "risk": "high", "trigger": "scheme 二.1" },
+    { "dim": "test", "status": "partial", "evidence": "backtest 62 scripts", "risk": "medium", "trigger": "scheme 三.6" },
+    { "dim": "docs", "status": "covered", "evidence": "README 存在且含入口", "risk": "low", "trigger": "" },
+    { "dim": "frontend", "status": "not-applicable", "evidence": "无 UI", "risk": "low", "trigger": "N/A 复检条件" }
+  ],
+  "skillAnalyses": [
+    { "skill": "architect-security", "principle": "密钥/暴露面/访问控制", "evidence": "config.yaml L5-16", "risk": "critical", "nextStep": "24h 轮换密钥" },
+    { "skill": "architect-git", "principle": "变更管控/目录卫生", "evidence": ".gitignore 未忽略 config.yaml", "risk": "high", "nextStep": "config.yaml 入 .gitignore" }
+  ],
+  "blockers": [
+    { "id": "C1", "level": "critical", "scheme": "scheme 一.1", "title": "钉钉凭证明文入库", "phenomenon": "config.yaml L5-16 三组明文；TESTDT 同凭证", "rootCause": "无密钥管理设施", "impact": "仓库可获取者可伪造告警 webhook", "fixOrder": "轮换->gitignore->env->测试生产隔离", "verify": "Select-String config.yaml 'SECRET' 应变空" },
+    { "id": "H1", "level": "high", "scheme": "scheme 二.1", "title": "src/agent 单文件过大", "phenomenon": "generic_agent.py 47KB", "rootCause": "未按职责拆分", "impact": "可维护性差", "fixOrder": "按职责分包", "verify": "wc -L generic_agent.py 低于阈值" }
+  ],
+  "narratives": {
+    "summary": "发现明文密钥，security 维 critical；design/git 两处 high。",
+    "keyFindings": "config.yaml 三组明文 DINGTALK 凭证；backtest 61 脚本爆炸。",
+    "hardening": "P0 轮换密钥，再改 .gitignore + env 读取。",
+    "nextSteps": "P0 密钥轮换 -> P1 design 拆分 -> P2 test pytest 化。"
+  }
+}

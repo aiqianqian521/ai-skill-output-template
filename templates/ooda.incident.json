@@ -1,0 +1,72 @@
+{
+  "id": "ooda.incident",
+  "family": "ooda",
+  "scene": "incident-handling",
+  "title": "OODA 故障处理报告",
+  "desc": "ooda 同族第二场景：事件处理循环，增加事件历史与处置时间。与 ooda.loop 为不同模板。",
+  "fallback_family": "ooda",
+  "frontmatter_required": [
+    "skill_family",
+    "skill_name",
+    "project",
+    "evaluatedAt",
+    "input_ref",
+    "renderer",
+    "status",
+    "severity"
+  ],
+  "narratives_required": [
+    "summary"
+  ],
+  "narratives_min_len": 8,
+  "sections": [
+    {
+      "key": "detect",
+      "title": "① 事件发现（Observe）",
+      "kind": "narrative",
+      "field": "observe"
+    },
+    {
+      "key": "orient",
+      "title": "② 定位与分构（Orient）",
+      "kind": "narrative",
+      "field": "orient"
+    },
+    {
+      "key": "act",
+      "title": "③ 干预处置（Act）",
+      "kind": "narrative",
+      "field": "act"
+    },
+    {
+      "key": "verify",
+      "title": "④ 验证与收尾（Verify）",
+      "kind": "narrative",
+      "field": "verify"
+    },
+    {
+      "key": "timeline",
+      "title": "⑤ 事件时间线",
+      "kind": "table",
+      "rows": "timeline",
+      "cols": [
+        {
+          "h": "时刻",
+          "f": "at"
+        },
+        {
+          "h": "动作",
+          "f": "action"
+        },
+        {
+          "h": "负责人",
+          "f": "owner"
+        }
+      ]
+    }
+  ],
+  "validation": {
+    "forbidden_words": true
+  },
+  "default": false
+}

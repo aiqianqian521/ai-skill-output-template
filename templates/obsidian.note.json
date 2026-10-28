@@ -1,0 +1,44 @@
+{
+  "id": "obsidian.note",
+  "family": "obsidian",
+  "scene": "knowledge-note",
+  "title": "Obsidian 知识库笔记",
+  "desc": "知识库笔记：frontmatter 叠加 tags/aliases/双链。",
+  "fallback_family": "obsidian",
+  "frontmatter_required": [
+    "skill_family",
+    "skill_name",
+    "project",
+    "evaluatedAt",
+    "input_ref",
+    "renderer",
+    "status",
+    "tags",
+    "aliases"
+  ],
+  "narratives_required": [
+    "summary",
+    "evidence"
+  ],
+  "narratives_min_len": 8,
+  "sections": [
+    {
+      "key": "evidence",
+      "title": "证据 / 背景",
+      "kind": "narrative",
+      "field": "evidence"
+    },
+    {
+      "key": "links",
+      "title": "相关链接",
+      "kind": "list",
+      "rows": "links",
+      "wiki": true
+    }
+  ],
+  "validation": {
+    "forbidden_words": true
+  },
+  "golden": "spec/L2-golden/obsidian.md",
+  "default": true
+}

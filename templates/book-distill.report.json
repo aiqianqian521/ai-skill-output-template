@@ -1,0 +1,36 @@
+{
+  "id": "book-distill.report",
+  "family": "book-distill",
+  "scene": "task-completion-report",
+  "title": "book-distill 任务完结报告（打磨版）",
+  "desc": "通用「任务完结给客户一份可机检 md 报告」模板：frontmatter + 四件套(结论/关键发现/加固建议/下一步) + 分级引用 scheme + 证据路径。",
+  "fallback_family": "book-distill",
+  "frontmatter_required": [
+    "skill_family",
+    "skill_name",
+    "project",
+    "evaluatedAt",
+    "input_ref",
+    "renderer",
+    "status"
+  ],
+  "narratives_required": [
+    "结论",
+    "关键发现",
+    "加固建议",
+    "下一步"
+  ],
+  "narratives_min_len": 8,
+  "sections": [
+    { "key": "conclusion", "title": "1. 结论", "kind": "narrative", "field": "conclusion" },
+    { "key": "findings", "title": "2. 关键发现（证据 · 行级）", "kind": "narrative", "field": "findings" },
+    { "key": "hardening", "title": "4. 加固建议（可执行）", "kind": "narrative", "field": "hardening" },
+    { "key": "next", "title": "5. 下一步（负责人 + 动作 + 验证 + 响应）", "kind": "narrative", "field": "nextSteps" }
+  ],
+  "validation": {
+    "forbidden_words": true,
+    "require_evidence_on_finding": true,
+    "require_trigger_ref": true
+  },
+  "default": false
+}

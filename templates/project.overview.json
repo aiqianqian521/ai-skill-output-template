@@ -1,0 +1,184 @@
+{
+  "id": "project.overview",
+  "family": "project",
+  "scene": "full-project-overview",
+  "title": "完整项目介绍（架构图前置 + 设计者/使用者双视角）",
+  "desc": "面向他人完整了解一个项目的统筹文档：结论 → 全景架构图 → 模块地图 → 任务流程 → 维度覆盖 → 分析 → 统计 → 阻塞项 → 使用手册 → 规划。",
+  "fallback_family": "project",
+  "frontmatter_required": [
+    "skill_family",
+    "skill_type",
+    "project",
+    "evaluatedAt",
+    "input_ref",
+    "renderer",
+    "status"
+  ],
+  "narratives_required": [
+    "summary",
+    "architecture",
+    "taskFlow",
+    "usage",
+    "keyFindings",
+    "hardening",
+    "nextSteps",
+    "successCriteria"
+  ],
+  "narratives_min_len": 10,
+  "sections": [
+    {
+      "key": "architecture",
+      "title": "2. 全景架构图",
+      "kind": "narrative",
+      "field": "architecture"
+    },
+    {
+      "key": "archMap",
+      "title": "3. 架构分层与模块地图",
+      "kind": "table",
+      "rows": "archMap",
+      "cols": [
+        {
+          "h": "层/模块",
+          "f": "dir"
+        },
+        {
+          "h": "职责",
+          "f": "role"
+        },
+        {
+          "h": "证据",
+          "f": "evidence"
+        }
+      ]
+    },
+    {
+      "key": "taskFlow",
+      "title": "4. 任务运行与自主 loop 流程",
+      "kind": "narrative",
+      "field": "taskFlow"
+    },
+    {
+      "key": "successCriteria",
+      "title": "5. 成功判定机制 · 用户定义·Loop 逼近",
+      "kind": "narrative",
+      "field": "successCriteria"
+    },
+    {
+      "key": "dims",
+      "title": "6. 质量维度覆盖矩阵",
+      "kind": "table",
+      "rows": "dimensions",
+      "cols": [
+        {
+          "h": "维度",
+          "f": "dim"
+        },
+        {
+          "h": "状态",
+          "f": "status"
+        },
+        {
+          "h": "证据",
+          "f": "evidence"
+        },
+        {
+          "h": "风险",
+          "f": "risk"
+        }
+      ]
+    },
+    {
+      "key": "skills",
+      "title": "7. 各模块详细分析",
+      "kind": "subs",
+      "rows": "skillAnalyses",
+      "fields": [
+        {
+          "f": "principle",
+          "label": "原则"
+        },
+        {
+          "f": "evidence",
+          "label": "证据"
+        },
+        {
+          "f": "risk",
+          "label": "风险分级"
+        },
+        {
+          "f": "nextStep",
+          "label": "下一步"
+        }
+      ]
+    },
+    {
+      "key": "stats",
+      "title": "8. 问题点汇总统计",
+      "kind": "stats",
+      "rows": "dimensions"
+    },
+    {
+      "key": "blockers",
+      "title": "9. 改进方案 — 阻塞项详述",
+      "kind": "subs",
+      "rows": "blockers",
+      "fields": [
+        {
+          "f": "phenomenon",
+          "label": "现象"
+        },
+        {
+          "f": "rootCause",
+          "label": "根因"
+        },
+        {
+          "f": "impact",
+          "label": "影响"
+        },
+        {
+          "f": "verify",
+          "label": "验证"
+        }
+      ]
+    },
+    {
+      "key": "usage",
+      "title": "10. 使用者视角 · 运行任务 / 查询历史 / 自主 loop",
+      "kind": "narrative",
+      "field": "usage"
+    },
+    {
+      "key": "keyFindings",
+      "title": "11. 关键发现",
+      "kind": "narrative",
+      "field": "keyFindings"
+    },
+    {
+      "key": "hardening",
+      "title": "12. 加固建议",
+      "kind": "narrative",
+      "field": "hardening"
+    },
+    {
+      "key": "nextSteps",
+      "title": "13. 下一步",
+      "kind": "narrative",
+      "field": "nextSteps"
+    }
+  ],
+  "validation": {
+    "require_evidence_on_finding": true,
+    "require_trigger_ref": true,
+    "forbidden_words": true,
+    "other_saturation_max": 0.5,
+    "coverage_status_enum": [
+      "covered",
+      "partial",
+      "missing",
+      "not-applicable"
+    ]
+  },
+  "golden": "spec/L2-golden/project-overview.md",
+  "default": false
+}

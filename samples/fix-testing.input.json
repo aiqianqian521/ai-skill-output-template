@@ -1,0 +1,27 @@
+﻿{
+  "family": "architect",
+  "project": "influxdb-config-path-fix",
+  "evaluatedAt": "2026-08-26",
+  "title": "ai-skill-output-template 对「脚本bug修复+agent测试记录」场景的适用性评估",
+  "status": "covered",
+  "skillName": "architect-security",
+  "archMap": [
+    { "dir": "linux64/plugin/hc_db_influxdb_linux.py", "role": "修复目标：get_config_path 配置路径解析", "evidence": "L107/L115 helpers；L127 or\"\"空版本保护；L141-172 回退链" },
+    { "dir": "linux64/plugin/hc_db_influxdb_linux_al.py", "role": "同源变体，同步修复", "evidence": "L167/175/187/... 同逻辑" },
+    { "dir": "tmp/linux/influxdb", "role": "交付物：runbook+模板+单测", "evidence": "AGENT_RUNBOOK.md / AGENT_TEST_RECORD_TEMPLATE.md / test_get_config_path.py" }
+  ],
+  "dimensions": [
+    { "dim": "docs-structure", "status": "covered", "evidence": "ai-skill-output-template 提供 frontmatter 契约+四件套+分级引用，已摘入复测模板", "risk": "low", "trigger": "" },
+    { "dim": "exec-verify", "status": "partial", "evidence": "模板只约束输出形状，不校验 config_path/http_port 真值；真值需 Runbook A3/A5 断言+单测", "risk": "high", "trigger": "scheme 二.1（配置多源/验证能力不在模板）" },
+    { "dim": "reusability", "status": "covered", "evidence": "L0 契约可跨脚本复用；替换{脚本名}/断言字段即可套到 memcached/redis/es", "risk": "low", "trigger": "" }
+  ],
+  "skillAnalyses": [
+    { "skill": "architect-security", "principle": "输出结构纪律", "evidence": "报告形状由 C1 renderer 强制，LLM 只写 narrative", "risk": "covered", "nextStep": "作为复测外壳，不套 render 主流程" }
+  ],
+  "narratives": {
+    "summary": "ai-skill-output-template 对「修复+复测」半适用：解决输出规范化（造型/必填/分级/脱敏），但不覆盖测试执行与断言正确性，需搭配 Runbook 使用。",
+    "keyFindings": "L0 契约有效且可复用；render 强约束不适用修复类记录；真值校验靠 Runbook 与单测。",
+    "hardening": "把 L0 契约抽出作轻量复测 runbook 模板，标注 [强制]/[必填]/[选填]。",
+    "nextSteps": "用本模板产出 influxdb 复测三份记录，套用到其它 DB 脚本修复。"
+  }
+}
