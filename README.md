@@ -85,3 +85,16 @@ node scripts/validate.mjs output/architect/p/2026-09-01/report.md --template arc
 - `node tests/test-e2e.cjs`                  — 端到端：四族 + 真实数据落盘渲染 + validate，共 5 例
 
 > 加入新的输出模板后，请同时补充一条 validate-gates 断言，防止模板声明被改坏。
+
+## 配套项目（生态互链）
+
+本仓是这套 agent skill 生态的「输出结构合约」：其他 skill 仓按本仓声明的结构产出报告，编排引擎按同一结构消费。
+
+| 仓库 | 是什么 | 与本仓的关系 |
+|---|---|---|
+| [aiqianqian521/sloth-loop](https://github.com/aiqianqian521/sloth-loop) | 零 LLM 的任务编排引擎（身体） | 把本仓作为能力层挂载（`skills/ai-skill-output-template` 子模块），按模板校验产出 |
+| [aiqianqian521/ooda_skill](https://github.com/aiqianqian521/ooda_skill) | OODA 执行循环纪律 | 使用方：复盘类报告按本仓模板渲染 |
+| [aiqianqian521/architect-skills](https://github.com/aiqianqian521/architect-skills) | 19 个架构评估 skill | 使用方：评估报告按本仓模板渲染 |
+| [aiqianqian521/obsidian-skills](https://github.com/aiqianqian521/obsidian-skills) | Obsidian 知识库 skill 组 | 使用方：知识库产物按本仓模板渲染 |
+
+> 上面四个仓库都反向链接回本仓；`sloth-loop` 以 submodule 方式挂载本仓，可按需 pin 版本。
