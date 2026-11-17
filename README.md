@@ -96,5 +96,6 @@ node scripts/validate.mjs output/architect/p/2026-09-01/report.md --template arc
 | [aiqianqian521/ooda_skill](https://github.com/aiqianqian521/ooda_skill) | OODA 执行循环纪律 | 使用方：复盘类报告按本仓模板渲染 |
 | [aiqianqian521/architect-skills](https://github.com/aiqianqian521/architect-skills) | 19 个架构评估 skill | 使用方：评估报告按本仓模板渲染 |
 | [aiqianqian521/obsidian-skills](https://github.com/aiqianqian521/obsidian-skills) | Obsidian 知识库 skill 组 | 使用方：知识库产物按本仓模板渲染 |
+| [aiqianqian521/go-sec-audit](https://github.com/aiqianqian521/go-sec-audit) | Go 源码安全审计 skill | 同思路的同族 skill：8 节报告骨架 + 计数加总校验 + 交付前检查门禁 |
 
 > 上面四个仓库都反向链接回本仓；`sloth-loop` 以 submodule 方式挂载本仓，可按需 pin 版本。
